@@ -1,0 +1,113 @@
+{% include "layouts/header.html" %}
+{% include "layouts/sider.html" %}
+{% load static %}
+{% block content %}
+	<div class="content-wrapper">
+	    <!-- Content Header (Page header) -->
+	    <section class="content-header">
+	        <div class="container-fluid">
+	            <div class="row mb-2">
+	                <div class="col-sm-6">
+	                    <h1>Excel</h1>
+	                </div>
+	                <div class="col-sm-6">
+	                    <ol class="breadcrumb float-sm-right">
+	                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+	                        <li class="breadcrumb-item active">Excel</li>
+	                    </ol>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- /.container-fluid -->
+	    </section>
+	    <!-- Main content -->
+	    <section class="content">
+	        <div class="card">
+	            <div class="card-header">
+	            	<div class="row">
+	            		<div class="col-sm-4">
+	            			<a id="import_data_by_customer_name" class="btn btn-success float-left">Import Data by Customer Name</a>
+	            		</div>
+	            		<div class="col-sm-4">
+	            			<a id="import_data_by_invoice_name" class="btn btn-success float-left">Import Data by Invoice Name</a>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="col-sm-4">
+	            	{% for msg in messages %}
+			            <div class="alert alert-success" role="alert">
+			                {{ msg }}
+			            </div>
+		        	{% endfor %}
+	            </div>
+	            <!-- /.card-header -->
+	            <div class="card-body col-sm-6">
+            		<form action="{% url 'import_customer_per_data' %}" method="POST">
+            			{% csrf_token %}
+            			<select id="customer_name" name="customer_name" class="form-control" style="display: none;">
+            				<option value="">Select Customer Name</option>
+            				{% for customer in customer_data %}
+            					<option value="{{customer.id}}">{{customer.customer_name}}</option>
+            				{% endfor %}
+            			</select>
+                        <button type="submit" id="submit_button1" class="btn btn-primary" style="display: none;">Import Data</button>
+            		</form>
+            		<form action="{% url 'import_invoice_per_data' %}" method="POST">
+            			{% csrf_token %}
+            			<select id="invoice_name" name="invoice_name" class="form-control" style="display: none;">
+            				<option value="">Select Invoice Name</option>
+            				{% for invoice in invoice_data %}
+            					<option value="{{invoice.id}}">{{invoice.name}}</option>
+            				{% endfor %}
+            			</select>
+            			<br>
+                        <button type="submit" id="submit_button2" class="btn btn-primary" style="display: none;">Import Data</button>
+            		</form>
+				</div>
+	            <!-- /.card-body -->
+	        </div>
+	        <!-- /.card -->
+	    </section>
+	    <!-- /.content -->
+	</div>
+{% include "layouts/footer.html" %}
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#import_data_by_customer_name").click(function()
+		{
+			$("#customer_name").removeAttr("style")
+			$("#invoice_name").removeAttr("required", true)
+			$("#start_date").removeAttr("required", true)
+			$("#end_date").removeAttr("required", true)
+			$("#customer_name").attr("required", true)
+			$("#invoice_name").attr("style", "display:none")
+			$("#start_date").attr("style", "display:none")
+			$("#end_date").attr("style", "display:none")
+			$("#label_start_date").attr("style", "display:none")
+			$("#label_end_date").attr("style", "display:none")
+			$("#submit_button1").removeAttr("style")
+			$("#submit_button2").attr("style", "display:none")
+			$("#submit_button3").attr("style", "display:none")
+
+		});
+
+		$("#import_data_by_invoice_name").click(function()
+		{
+			$("#submit_button2").removeAttr("style")
+			$("#submit_button1").attr("style", "display:none")
+			$("#submit_button3").attr("style", "display:none")
+			$("#invoice_name").removeAttr("style")
+			$("#customer_name").removeAttr("required", true)
+			$("#start_date").removeAttr("required", true)
+			$("#end_date").removeAttr("required", true)
+			$("#invoice_name").attr("required", true)
+			$("#customer_name").attr("style", "display:none")
+			$("#start_date").attr("style", "display:none")
+			$("#end_date").attr("style", "display:none")
+			$("#label_start_date").attr("style", "display:none")
+			$("#label_end_date").attr("style", "display:none")
+		});
+	});
+</script>
+{% endblock %}

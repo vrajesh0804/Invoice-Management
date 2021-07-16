@@ -1,0 +1,96 @@
+{% include "layouts/header.html" %}
+{% include "layouts/sider.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create Invoice</h1>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-warning" href="{% url 'invoice' %}">Back to List</a>
+                </div>
+                <div class="col-sm-4">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'invoice' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Create Invoice</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        {% for msg in messages %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                        <!-- form start -->
+                        <form id="quickForm" method="POST" action="{% url 'store_invoice' %}">
+                        	{% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Invoice Name</label>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Invoice Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="purpose">Invoice Purpose</label>
+                                    <textarea id="purpose" name="purpose" class="form-control" placeholder="Enter Invoice Purpose" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date">Invoice Date</label>
+                                    <input type="date" name="date" class="form-control" placeholder="Enter Invoice Date" max="{{date_today}}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="customer_id">Customer Name</label>
+                                    <select class="form-control" name="customer_id" required id="customer_id">
+                                        <option value="">Select Customer</option>
+                                        {% for data in customer %}
+                                            <option value="{{data.id}}">{{data.customer_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Invoice Amount</label>
+                                    <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter Invoice Amount" required>
+                                </div>
+                                
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" id="btn" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+{% include "layouts/footer.html" %}
+{% endblock %}

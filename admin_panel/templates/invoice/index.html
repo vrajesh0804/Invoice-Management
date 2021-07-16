@@ -1,0 +1,124 @@
+{% include "layouts/header.html" %}
+{% include "layouts/sider.html" %}
+{% load static %}
+{% block content %}
+	<div class="content-wrapper">
+	    <!-- Content Header (Page header) -->
+	    <section class="content-header">
+	        <div class="container-fluid">
+	            <div class="row mb-2">
+	                <div class="col-sm-6">
+	                    <h1>Invoice</h1>
+	                </div>
+	                <div class="col-sm-6">
+	                    <ol class="breadcrumb float-sm-right">
+	                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+	                        <li class="breadcrumb-item active">Invoice</li>
+	                    </ol>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- /.container-fluid -->
+	    </section>
+	    <div class="row">
+	    	<div class="col-sm-12 d-flex justify-content-center">
+	    		{% for msg in messages %}
+		            <div class="alert alert-success" role="alert">
+		                {{ msg }}
+		            </div>
+		        {% endfor %}
+	    	</div>
+	    </div>
+	    
+	    <!-- Main content -->
+	    <section class="content">
+	        <div class="card">
+	            <div class="card-header">
+		            <a href="{% url 'create_invoice' %}" class="btn btn-primary float-right">Create New Invoice</a>
+	            </div>
+	            <!-- /.card-header -->
+	            <div class="card-body">
+            		<table class="table table-bordered" id="invoice_datatable_ajax">
+				        <thead>
+				            <tr>
+				                <th>Invoice Name</th>
+				                <th>Invoice Purpose</th>
+				                <th>Amount</th>
+				                <th>Created Date</th>
+				                <th style="width: 40px">Action</th>
+				            </tr>
+				            <tr>
+				                <th><input type="text" id="name" name="name" class="form-control"></th>
+				                <th><input type="text" id="purpose" name="purpose" class="form-control"></th>
+				                <th><input type="text" id="amount" name="amount" class="form-control"></th>
+				                <th><input type="text" id="date" name="date" class="form-control"></th>
+				            </tr>
+				        </thead>
+			            <tbody id="filter">
+				        	{% for record in invoice_data %}
+					            <tr >
+					                <td id="name_filter_value">{{record.name}}</td>
+					                <td id="purpose_filter_value">{{record.purpose}}</td>
+					                <td id="amount_filter_value">{{record.amount}}</td>
+					                <td id="date_filter_value">{{record.date|date:"d-m-Y"}}</td>
+					                <td>
+					                	<a href="{% url 'edit_invoice' record.id %}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+					                	<a href="{% url 'delete_invoice' record.id %}"><i class="fas fa-trash"></i></a>
+					                </td>
+					            </tr>
+			            	{% endfor %}
+				        </tbody>
+				    </table>
+				</div>
+	            <!-- /.card-body -->
+	        </div>
+	        <!-- /.card -->
+	    </section>
+	    <!-- /.content -->
+	</div>
+{% include "layouts/footer.html" %}
+<script>
+	$(document).ready(function(){
+		$("#name").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#name_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#purpose").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#purpose_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#amount").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#amount_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#date").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#date_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% include "layouts/header.html" %}
+{% include "layouts/sider.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create Customer</h1>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-warning" href="{% url 'customer' %}">Back to List</a>
+                </div>
+                <div class="col-sm-4">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'customer' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Create Customer</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endif %}
+                        {% if success %}
+                            <div class="alert alert-success" role="alert">
+                                {{ success }}
+                            </div>
+                        {% endif %}
+                        <!-- form start -->
+                        <form id="quickForm" method="POST" action="{% url 'store_customer' %}">
+                        	{% csrf_token %}
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="customer_name">Customer Name</label>
+                                    <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Enter Customer Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="company_name">Company Name</label>
+                                    <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Enter Company Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea rows="2" placeholder="Enter Company Description" cols="3" class="form-control" name="description" id="description" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone">Contact Number</label>
+                                    <input type="Number" id="phone" name="phone" class="form-control" placeholder="Enter valid Contact Number" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email ID</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter valid Contact Number" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea rows="2" placeholder="Enter Address" cols="3" class="form-control" name="address" id="address" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="country_id">Country</label>
+                                    <input type="text" id="country_id" name="country_id" class="form-control" placeholder="Enter Country Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="state_id">State</label>
+                                    <input type="text" id="state_id" name="state_id" class="form-control" placeholder="Enter State Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city_id">City</label>
+                                    <input type="text" id="city_id" name="city_id" class="form-control" placeholder="Enter City Name" required>
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" id="btn" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+                <!-- right column -->
+                <div class="col-md-6">
+                </div>
+                <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+{% include "layouts/footer.html" %}
+{% endblock %}

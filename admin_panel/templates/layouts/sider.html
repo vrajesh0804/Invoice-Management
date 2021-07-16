@@ -1,0 +1,73 @@
+{% load static %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="" class="brand-link">
+    <img src="{% static 'assets/img/icon.png'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">Invoice Software</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static 'assets/img/profile.jpg'%}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="" class="d-block">Admin</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <!-- Dashboard -->
+                <li class="nav-item menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard' %} active {%endif%}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Invoice -->
+                <li class="nav-item menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'invoice' %}" class="nav-link {% if request.path == '/invoice' or request.path == '/create_invoice' or request.path == '/edit_invoice' %} active {%endif%}">
+                                <i class="fas fa-file-invoice nav-icon">&nbsp;</i>
+                                <p>Invoice </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Customer -->
+                <li class="nav-item menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'customer' %}" class="nav-link {% if request.path == '/customer'  or request.path == '/create_customer' or request.path == '/edit_customer' %} active {%endif%}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Customer</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Excel -->
+                <li class="nav-item menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'excel' %}" class="nav-link {% if request.path == '/excel' %} active {%endif%}">
+                                <i class="fas fa-file-csv nav-icon"></i>
+                                <p>Excel</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<!--  -->

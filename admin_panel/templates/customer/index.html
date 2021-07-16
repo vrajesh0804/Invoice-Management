@@ -1,0 +1,119 @@
+{% include "layouts/header.html" %}
+{% include "layouts/sider.html" %}
+{% load static %}
+{% block content %}
+	<div class="content-wrapper">
+	    <!-- Content Header (Page header) -->
+	    <section class="content-header">
+	        <div class="container-fluid">
+	            <div class="row mb-2">
+	                <div class="col-sm-6">
+	                    <h1>Customer</h1>
+	                </div>
+	                <div class="col-sm-6">
+	                    <ol class="breadcrumb float-sm-right">
+	                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+	                        <li class="breadcrumb-item active">Customer</li>
+	                    </ol>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- /.container-fluid -->
+	    </section>
+	    <!-- Main content -->
+	    <section class="content">
+	        <div class="card">
+	        	{% for msg in messages %}
+		            <div class="alert alert-success" role="alert">
+		                {{ msg }}
+		            </div>
+		        {% endfor %}
+	            <div class="card-header">
+	                <a href="{% url 'create_customer' %}" class="btn btn-primary float-right">Create New Customer</a>
+	            </div>
+	            <!-- /.card-header -->
+	            <div class="card-body">
+            		<table class="table table-bordered">
+				        <thead>
+				            <tr>
+				                <th>Customer Name</th>
+				                <th>Company Name</th>
+				                <th>Contact Details</th>
+				                <th>Address</th>
+				                <th style="width: 40px">Action</th>
+				            </tr>
+				            <tr>
+				                <th><input type="text" id="customer_name" name="customer_name" class="form-control"></th>
+				                <th><input type="text" id="company_name" name="company_name" class="form-control"></th>
+				                <th><input type="text" id="phone" name="phone" class="form-control"></th>
+				                <th><input type="text" id="address" name="address" class="form-control"></th>
+				            </tr>
+				        </thead>
+			            <tbody id="filter">
+				        	{% for record in customer_data %}
+					            <tr >
+					                <td id="customer_name_filter_value">{{record.customer_name}}</td>
+					                <td id="company_name_filter_value">{{record.company_name}}</td>
+					                <td id="phone_filter_value">{{record.phone}},<br>{{record.email}}</td>
+					                <td id="address_filter_value">{{record.address}},<br>{{record.city_id}},<br>{{record.state_id}},<br>{{record.country_id}}</td>
+					                <td>
+					                	<a href="{% url 'edit_customer' record.id %}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+					                	<a href="{% url 'delete_customer' record.id %}"><i class="fas fa-trash"></i></a>
+					                </td>
+					            </tr>
+			            	{% endfor %}
+				        </tbody>
+				    </table>
+				</div>
+	            <!-- /.card-body -->
+	        </div>
+	        <!-- /.card -->
+	    </section>
+	    <!-- /.content -->
+	</div>
+{% include "layouts/footer.html" %}
+<script>
+	$(document).ready(function(){
+		$("#customer_name").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#customer_name_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#company_name").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#company_name_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#phone").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#phone_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+		$("#address").on("keyup", function() 
+		{
+			var value = $(this).val().toLowerCase();
+			$("#address_filter_value").filter(function() 
+			{
+				$("#filter").filter(function() {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+		});
+	});
+</script>
+{% endblock %}
