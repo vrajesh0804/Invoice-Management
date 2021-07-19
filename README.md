@@ -1,4 +1,6 @@
-Welcome to the Invoice-Management wiki! Install Django using the below command python -m pip install Django
+Welcome to the Invoice-Management wiki! 
+Install Django using the below command
+python -m pip install Django
 
 You need Wamp/Lamp/Xampp to connect with the database.
 
@@ -13,7 +15,13 @@ Then, go to setting.py and change the DB configuration. DATABASES = {
 }
 }
 
-For Mail configuation change below code as per your requirement EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' EMAIL_HOST='smtp.gmail.com' EMAIL_PORT=587 EMAIL_HOST_USER = 'your email id' EMAIL_HOST_PASSWORD = 'password' EMAIL_USE_TLS = True
+For Mail configuation change below code as per your requirement 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST='smtp.gmail.com' 
+EMAIL_PORT=587 
+EMAIL_HOST_USER = 'your email id' 
+EMAIL_HOST_PASSWORD = 'password' 
+EMAIL_USE_TLS = True
 
 After these extra lines of code have been added to your project, you can send emails now. But if you are using Gmail, then the first time you make these changes in your project and run, you might get an SMTP error.
 
