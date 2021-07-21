@@ -10,10 +10,7 @@
                 <div class="col-sm-6">
                     <h1>Create Invoice</h1>
                 </div>
-                <div class="col-sm-2">
-                    <a class="btn btn-warning" href="{% url 'invoice' %}">Back to List</a>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{% url 'invoice' %}">Home</a></li>
                         <li class="breadcrumb-item active">Create Invoice</li>
@@ -42,21 +39,6 @@
                         	{% csrf_token %}
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="name">Invoice Name</label>
-                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Invoice Name" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="purpose">Invoice Purpose</label>
-                                    <textarea id="purpose" name="purpose" class="form-control" placeholder="Enter Invoice Purpose" required></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="date">Invoice Date</label>
-                                    <input type="date" name="date" class="form-control" placeholder="Enter Invoice Date" max="{{date_today}}" required>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="customer_id">Customer Name</label>
                                     <select class="form-control" name="customer_id" required id="customer_id">
                                         <option value="">Select Customer</option>
@@ -65,15 +47,31 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Invoice Name" required>
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="amount">Invoice Amount</label>
+                                    <label for="purpose">Purpose</label>
+                                    <textarea id="purpose" name="purpose" class="form-control" placeholder="Enter Invoice Purpose" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="date" name="date" class="form-control" placeholder="Enter Invoice Date" max="{{date_today}}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
                                     <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter Invoice Amount" required>
                                 </div>
                                 
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
+                                <a class="btn btn-warning" href="{% url 'customer' %}">Back to List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" id="btn" class="btn btn-primary">Submit</button>
                             </div>
                         </form>

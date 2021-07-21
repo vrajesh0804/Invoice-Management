@@ -23,13 +23,15 @@
 	    <!-- Main content -->
 	    <section class="content">
 	        <div class="card">
-	        	{% for msg in messages %}
-		            <div class="alert alert-success" role="alert">
-		                {{ msg }}
-		            </div>
-		        {% endfor %}
 	            <div class="card-header">
-	                <a href="{% url 'create_customer' %}" class="btn btn-primary float-right">Create New Customer</a>
+	            	<div class="dropdown">
+						<button class="btn btn-success float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Excel</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a data-toggle="modal" data-target="#exampleModal1" type="button" class="dropdown-item" >Import Customer</a>
+							<a href="{% url 'export_customer' %}" type="button" class="dropdown-item" >Export Customer</a>
+						</div>
+					</div>
+	                <a style="margin-right: 20px;" href="{% url 'create_customer' %}" class="btn btn-primary float-right">Create New Customer</a>
 	            </div>
 	            <!-- /.card-header -->
 	            <div class="card-body">
@@ -55,10 +57,9 @@
 					                <td id="customer_name_filter_value">{{record.customer_name}}</td>
 					                <td id="company_name_filter_value">{{record.company_name}}</td>
 					                <td id="phone_filter_value">{{record.phone}},<br>{{record.email}}</td>
-					                <td id="address_filter_value">{{record.address}},<br>{{record.city_id}},<br>{{record.state_id}},<br>{{record.country_id}}</td>
+					                <td id="address_filter_value">{{record.address}},<br>{{city.name}},<br>{{state.name}},<br>{{country.name}}</td>
 					                <td>
 					                	<a href="{% url 'edit_customer' record.id %}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
-					                	<a href="{% url 'delete_customer' record.id %}"><i class="fas fa-trash"></i></a>
 					                </td>
 					            </tr>
 			            	{% endfor %}
@@ -71,6 +72,36 @@
 	    </section>
 	    <!-- /.content -->
 	</div>
+<!-- Model Code -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModal1Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal1Label">Export by Customer Name</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+	<form action="{% url 'import_customer' %}" method="POST" enctype="multipart/form-data">
+	    <div class="modal-body">
+			{% csrf_token %}
+			<a href="{% static 'assets/excel/sample_excel.xlsx' %}" download class="btn btn-secondary">Download Sample</a>
+			<br><br>
+			<h5>Make sure your imported excel is same as sample excel.. Only XLSX File Accepted</h5>
+			<label for="customer_id">Import File</label>
+			<input type="file" title="Upload excel file" class="form-control" name="excel_file" required accept=".xlsx">
+			<br>
+	    </div>
+	    <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary second">IMPORT</button>
+	    </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End -->
 {% include "layouts/footer.html" %}
 <script>
 	$(document).ready(function(){
@@ -115,5 +146,16 @@
 			});
 		});
 	});
+</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	{% for msg in messages %}
+		swal({
+			title: "Export Excel",
+		  	text: '{{ msg }}',
+		  	button: "Okay",
+		});
+	{% endfor %}
+		
 </script>
 {% endblock %}

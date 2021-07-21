@@ -20,21 +20,17 @@
 	        </div>
 	        <!-- /.container-fluid -->
 	    </section>
-	    <div class="row">
-	    	<div class="col-sm-12 d-flex justify-content-center">
-	    		{% for msg in messages %}
-		            <div class="alert alert-success" role="alert">
-		                {{ msg }}
-		            </div>
-		        {% endfor %}
-	    	</div>
-	    </div>
-	    
 	    <!-- Main content -->
 	    <section class="content">
 	        <div class="card">
 	            <div class="card-header">
-		            <a href="{% url 'create_invoice' %}" class="btn btn-primary float-right">Create New Invoice</a>
+		            <div class="dropdown">
+									<button class="btn btn-success float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export to CSV</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal1">Export by Customer Name</button>
+									</div>
+								</div>
+		            <a style="margin-right: 20px;" href="{% url 'create_invoice' %}" class="btn btn-primary float-right">Create New Invoice</a>
 	            </div>
 	            <!-- /.card-header -->
 	            <div class="card-body">
@@ -63,7 +59,6 @@
 					                <td id="date_filter_value">{{record.date|date:"d-m-Y"}}</td>
 					                <td>
 					                	<a href="{% url 'edit_invoice' record.id %}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
-					                	<a href="{% url 'delete_invoice' record.id %}"><i class="fas fa-trash"></i></a>
 					                </td>
 					            </tr>
 			            	{% endfor %}
@@ -76,6 +71,41 @@
 	    </section>
 	    <!-- /.content -->
 	</div>
+<!-- Model Code -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModal1Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal1Label">Export by Customer Name</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="{% url 'import_customer_per_data' %}" method="POST">
+	    <div class="modal-body">
+	      	{% if customer_data is None %}
+	      		<h1>No Customer Found. Please add Customer.</h1>
+	      	{% else %}
+	    			{% csrf_token %}
+	    			<label for="customer_id">Customer Name</label>
+	    			<select id="customer_name" name="customer_name" class="form-control" required>
+	    				<option value="">Select Customer Name</option>
+	    				{% for customer in customer_data %}
+	    					<option value="{{customer.id}}">{{customer.customer_name}}</option>
+	    				{% endfor %}
+	    			</select>
+	    		
+	      	{% endif %}
+	    </div>
+	    <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary second">EXPORT</button>
+	    </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End -->
 {% include "layouts/footer.html" %}
 <script>
 	$(document).ready(function(){
@@ -120,5 +150,16 @@
 			});
 		});
 	});
+</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	{% for msg in messages %}
+		swal({
+			title: "Export Excel",
+		  	text: '{{ msg }}',
+		  	button: "Okay",
+		});
+	{% endfor %}
+		
 </script>
 {% endblock %}

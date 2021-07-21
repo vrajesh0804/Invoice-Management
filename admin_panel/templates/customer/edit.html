@@ -10,10 +10,7 @@
                 <div class="col-sm-6">
                     <h1>Edit Customer</h1>
                 </div>
-                <div class="col-sm-2">
-                    <a class="btn btn-warning" href="{% url 'customer' %}">Back to List</a>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{% url 'customer' %}">Home</a></li>
                         <li class="breadcrumb-item active">Edit Customer</li>
@@ -58,7 +55,7 @@
 
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea rows="2" placeholder="Enter Company Description" cols="3" class="form-control" name="description" id="description" required>{{customer_data.description}}"</textarea>
+                                    <textarea rows="2" placeholder="Enter Company Description" cols="3" class="form-control" name="description" id="description" required>{{customer_data.description}}</textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -73,27 +70,47 @@
 
                                 <div class="form-group">
                                     <label for="address">Address</label>
-                                    <textarea rows="2" placeholder="Enter Address" cols="3" class="form-control" name="address" id="address" required>{{customer_data.address}}"</textarea>
+                                    <textarea rows="2" placeholder="Enter Address" cols="3" class="form-control" name="address" id="address" required>{{customer_data.address}}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="country_id">Country</label>
-                                    <input type="text" id="country_id" value="{{customer_data.country_id}}" name="country_id" class="form-control" placeholder="Enter Country Name" required>
+                                    <select id="country_id" name="country_id" class="form-control" data-state-url="{% url 'ajax_load_states' %}" required>
+                                        <option value="">Select Country</option>
+                                            <option value="{{country.id}}" selected="" >{{country.name}}</option>
+                                            {% for data in country_data %}
+                                            <option value="{{data.id}}">{{data.name}}</option>
+                                            {% endfor %}
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="state_id">State</label>
-                                    <input type="text" id="state_id" value="{{customer_data.state_id}}" name="state_id" class="form-control" placeholder="Enter State Name" required>
+                                    <select id="state_id" name="state_id" class="form-control " data-cities-url="{% url 'ajax_load_cities' %}" required >
+                                        <option>Select State</option>
+                                        <option value="{{state.id}}" selected>{{state.name}}</option>
+                                        {% for data in state_data %}
+                                            <option value="{{data.id}}">{{data.name}}</option>
+                                        {% endfor %}
+                                        
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="city_id">City</label>
-                                    <input type="text" id="city_id" value="{{customer_data.city_id}}" name="city_id" class="form-control" placeholder="Enter City Name" required>
+                                    <select id="city_id" name="city_id" class="form-control " required>
+                                        <option>Select City</option>
+                                        <option value="{{city.id}}" selected>{{city.name}}</option>
+                                        {% for data in city_data %}
+                                            <option value="{{data.id}}">{{data.name}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
 
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
+                                <a class="btn btn-warning" href="{% url 'customer' %}">Back to List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" id="btn" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
@@ -113,4 +130,34 @@
     <!-- /.content -->
 </div>
 {% include "layouts/footer.html" %}
+<script type="text/javascript">
+    $('#country_id').on('change', function (e) {
+        const url = $("#country_id").attr("data-state-url");  
+        const countryId = $(this).val();
+        $.ajax({                       
+            url: url,                    
+            data: {
+                'country_id': countryId  
+            },
+            success: function (data) {   
+                $("#state_id").html(data);
+            }
+        });
+    });
+
+    $("#state_id").change(function () {
+        const url = $("#state_id").attr("data-cities-url");  
+        const stateId = $(this).val();
+        $.ajax({                       
+            url: url,                    
+            data: {
+                'state_id': stateId  
+            },
+            success: function (data) {   
+                $("#city_id").html(data);
+            }
+        });
+
+    });
+</script>
 {% endblock %}

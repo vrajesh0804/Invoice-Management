@@ -31,17 +31,6 @@
                         </li>
                     </ul>
                 </li>
-                <!-- Invoice -->
-                <li class="nav-item menu-open">
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'invoice' %}" class="nav-link {% if request.path == '/invoice' or request.path == '/create_invoice' or request.path == '/edit_invoice' %} active {%endif%}">
-                                <i class="fas fa-file-invoice nav-icon">&nbsp;</i>
-                                <p>Invoice </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 <!-- Customer -->
                 <li class="nav-item menu-open">
                     <ul class="nav nav-treeview">
@@ -53,13 +42,24 @@
                         </li>
                     </ul>
                 </li>
-                <!-- Excel -->
+                <!-- Projects -->
                 <li class="nav-item menu-open">
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{% url 'excel' %}" class="nav-link {% if request.path == '/excel' %} active {%endif%}">
-                                <i class="fas fa-file-csv nav-icon"></i>
-                                <p>Excel</p>
+                            <a href="{% url 'project' %}" class="nav-link {% if request.path == '/project' or request.path == '/create_project' or request.path == '/edit_project' %} active {%endif%}">
+                                <i class="fas fa-layer-group nav-icon">&nbsp;</i>
+                                <p>Projects </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Invoice -->
+                <li class="nav-item menu-open">
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'invoice' %}" class="nav-link {% if request.path == '/invoice' or request.path == '/create_invoice' or request.path == '/edit_invoice' %} active {%endif%}">
+                                <i class="fas fa-file-invoice nav-icon">&nbsp;</i>
+                                <p>Invoice </p>
                             </a>
                         </li>
                     </ul>

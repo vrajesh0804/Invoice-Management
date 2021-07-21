@@ -19,6 +19,27 @@ class Invoice(models.Model):
     class Meta:  
         db_table = "invoice" 
 
+
+class Country(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, default="")
+    class Meta:  
+        db_table = "country" 
+
+class State(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, default="")
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    class Meta:  
+        db_table = "state" 
+
+class City(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, default="")
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    class Meta:  
+        db_table = "city" 
+
 class Customer(models.Model):  
     id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=255, default="") 
@@ -27,9 +48,10 @@ class Customer(models.Model):
     phone = models.IntegerField(default=0) 
     email = models.EmailField(max_length=255, default="") 
     address = models.CharField(max_length=255, default="") 
-    country_id = models.CharField(max_length=255, default="") 
-    state_id = models.CharField(max_length=255, default="") 
-    city_id = models.CharField(max_length=255, default="") 
-    total_spending = models.IntegerField(default=0) 
+    country_id = models.CharField(max_length=255, default="")
+    state_id = models.CharField(max_length=255, default="")
+    city_id = models.CharField(max_length=255, default="")
+    total_spending = models.IntegerField(default=0, blank="True") 
     class Meta:  
         db_table = "customer" 
+

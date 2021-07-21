@@ -35,7 +35,6 @@ urlpatterns += [
     path('create_invoice', views.create_invoice, name='create_invoice'),
     path('store_invoice', views.store_invoice, name='store_invoice'),
     path('edit_invoice/<id>', views.edit_invoice, name='edit_invoice'),
-    path('delete_invoice/<id>', views.delete_invoice, name='delete_invoice'),
     path('update_invoice/<id>', views.update_invoice, name='update_invoice'),
 ]
 # Customer Url
@@ -45,11 +44,25 @@ urlpatterns += [
     path('store_customer', views.store_customer, name='store_customer'),
     path('edit_customer/<id>', views.edit_customer, name='edit_customer'),
     path('update_customer/<id>', views.update_customer, name='update_customer'),
-    path('delete_customer/<id>', views.delete_customer, name='delete_customer'),
+    path('import_customer', views.import_customer, name='import_customer'),
+    path('export_customer', views.export_customer, name='export_customer'),
 ]
 # Excel Url
 urlpatterns += [
     path('excel', views.excel, name='excel'),
     path('import_customer_per_data',views.import_customer_per_data, name='import_customer_per_data'),
-    path('import_invoice_per_data',views.import_invoice_per_data, name='import_invoice_per_data'),
+]
+# Project Url
+urlpatterns += [
+    path('project', views.project, name='project'),
+    path('create_project', views.create_project, name='create_project'),
+    path('store_project', views.store_project, name='store_project'),
+    path('edit_project/<id>', views.edit_project, name='edit_project'),
+    path('update_project/<id>', views.update_project, name='update_project'),
+    path('delete_project/<id>', views.delete_project, name='delete_project'),
+]
+
+urlpatterns += [
+    path('ajax_load_states', views.ajax_load_states, name='ajax_load_states'),
+    path('ajax_load_cities', views.ajax_load_cities, name='ajax_load_cities')
 ]

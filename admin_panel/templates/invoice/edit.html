@@ -10,10 +10,7 @@
                 <div class="col-sm-6">
                     <h1>Edit Invoice</h1>
                 </div>
-                <div class="col-sm-2">
-                    <a class="btn btn-warning" href="{% url 'invoice' %}">Back to List</a>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{% url 'invoice' %}">Home</a></li>
                         <li class="breadcrumb-item active">Edit Invoice</li>
@@ -72,6 +69,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
+                                <a class="btn btn-warning" href="{% url 'invoice' %}">Back to List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" id="btn" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
