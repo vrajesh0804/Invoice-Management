@@ -16,6 +16,7 @@ class Invoice(models.Model):
     date = models.DateField()  
     customer_id = models.CharField(max_length=255)  
     amount = models.CharField(max_length=255)  
+    currency_symbol = models.CharField(max_length=255, default="")
     created_at = models.CharField(max_length=255, default="", blank="True")  
     updated_at = models.CharField(max_length=255, default="", blank="True")  
     class Meta:  
@@ -53,9 +54,16 @@ class Customer(models.Model):
     country_id = models.CharField(max_length=255, default="")
     state_id = models.CharField(max_length=255, default="")
     city_id = models.CharField(max_length=255, default="")
-    total_spending = models.IntegerField(default=0, blank="True") 
     created_at = models.CharField(max_length=255, default="", blank="True")  
     updated_at = models.CharField(max_length=255, default="", blank="True")  
     class Meta:  
         db_table = "customer" 
 
+
+class Currency(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, default="")
+    symbol = models.CharField(max_length=255, default="")
+    price_dif = models.IntegerField(default=0)
+    class Meta:  
+        db_table = "currency" 

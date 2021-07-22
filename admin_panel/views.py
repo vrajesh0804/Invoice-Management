@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from admin_panel.models import Login, Invoice, Customer, Country, State, City
+from admin_panel.models import Login, Invoice, Customer, Country, State, City, Currency
 from admin_panel.forms import LoginForm, InvoiceForm, CustomerForm, CountryForm, StateForm, CityForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -68,22 +68,27 @@ def invoice(request):
 	return render(request, 'invoice/index.html', {'site_title':'INVOICE', 'invoice_data':invoice_data, 'customer_data':customer_data})
 
 def create_invoice(request):
+	currency_data = Currency.objects.all()
 	today = date.today()
 	date_today = today.strftime('%Y-%m-%d')
 	customer = Customer.objects.all()
-	return render(request, 'invoice/create.html', {'site_title':'CREATE INVOICE', 'date_today':date_today, 'customer':customer})
+	return render(request, 'invoice/create.html', {'currency_data':currency_data,'site_title':'CREATE INVOICE', 'date_today':date_today, 'customer':customer})
 
 def store_invoice(request):
 	if request.method == "POST":
-		invoice_store = InvoiceForm(request.POST)
-		customer_data = Customer.objects.get(id=request.POST['customer_id'])
-		if customer_data.total_spending is None:
-			customer_data.total_spending = request.POST['amount']
-		else:
-			entered_amount = int(request.POST['amount'])
-			old_value = int(customer_data.total_spending)
-			new_value = old_value + entered_amount
-			customer_data.total_spending = new_value
+		invoice_store = Invoice()
+		old_amount = float(request.POST['amount'])
+		currency_type = request.POST['currecny_type']
+		currency_data = Currency.objects.get(symbol=currency_type)
+		price_difference = float(currency_data.price_dif)
+		new_amount = old_amount * price_difference
+		invoice_store.amount = new_amount
+		invoice_store.customer_id = request.POST['customer_id']
+		invoice_store.name = request.POST['name']
+		invoice_store.purpose = request.POST['purpose']
+		invoice_store.date = request.POST['date']
+		invoice_store.currency_symbol = request.POST['currecny_type']
+		invoice_store.created_at = request.POST['created_at']
 		email = 'vrajesh@yopmail.com'
 		# Mail code
 		subject = 'Invoice Created Successfully'
@@ -92,7 +97,6 @@ def store_invoice(request):
 		recipient_list = [email]
 		send_mail(subject, message, email_from, recipient_list)
 		invoice_store.save()
-		customer_data.save()
 		messages.error(request, "Invoice Added Successfully.")
 		return redirect('invoice')
 	else:
@@ -100,17 +104,30 @@ def store_invoice(request):
 		return redirect('create_invoice')
 
 def edit_invoice(request, id):
+	currency_data = Currency.objects.all()
 	invoice_data = Invoice.objects.get(id=id)
+	currency = Currency.objects.get(symbol=invoice_data.currency_symbol)
 	today = date.today()
 	date_today = today.strftime('%Y-%m-%d')
 	customer = Customer.objects.get(id=invoice_data.customer_id)
-	return render(request, 'invoice/edit.html', {'customer':customer,'date_today':date_today, 'site_title':'EDIT INVOICE', 'invoice_data':invoice_data})
+	return render(request, 'invoice/edit.html', {'currency':currency,'currency_data':currency_data,'customer':customer,'date_today':date_today, 'site_title':'EDIT INVOICE', 'invoice_data':invoice_data})
 
 def update_invoice(request, id):
 	if request.method == "POST":
 		email = 'vrajesh@yopmail.com'
 		invoice_data = Invoice.objects.get(id=id)
-		invoice_update = InvoiceForm(request.POST, instance=invoice_data)
+		old_amount = float(request.POST['amount'])
+		currency_type = request.POST['currecny_type']
+		currency_data = Currency.objects.get(symbol=currency_type)
+		price_difference = float(currency_data.price_dif)
+		new_amount = old_amount * price_difference
+		invoice_data.amount = new_amount
+		invoice_data.customer_id = request.POST['customer_id']
+		invoice_data.name = request.POST['name']
+		invoice_data.purpose = request.POST['purpose']
+		invoice_data.date = request.POST['date']
+		invoice_data.currency_symbol = request.POST['currecny_type']
+		invoice_data.updated_at = request.POST['updated_at']
 		# Mail code
 		subject = f'Invoice Updated : {invoice_data.name}'
 		message = f'''Invoice has been Updated Successfully. 
@@ -123,7 +140,7 @@ Created : {invoice_data.date}'''
 		email_from = settings.EMAIL_HOST_USER
 		recipient_list = [email]
 		send_mail(subject, message, email_from, recipient_list)
-		invoice_update.save()
+		invoice_data.save()
 		messages.info(request,"Invoice Updated Successfully. Invoice Name {}: ".format(invoice_data.name))
 		return redirect('invoice')
 	else:

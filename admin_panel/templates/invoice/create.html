@@ -65,10 +65,20 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="amount">Currency Type</label>
+                                    <select name="currecny_type" id="currecny_type" class="form-control" required>
+                                        <option>Select Currency Type</option>
+                                        {% for currency in currency_data %}
+                                            <option value="{{currency.symbol}}">{{currency.symbol}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter Invoice Amount" required>
                                 </div>
-                                
+
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
