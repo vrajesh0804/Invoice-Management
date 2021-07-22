@@ -42,6 +42,7 @@
                         <!-- form start -->
                         <form id="quickForm" method="POST" action="{% url 'update_customer' customer_data.id %}">
                         	{% csrf_token %}
+                            <input type="hidden" name="updated_at" value="{{today}}">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>

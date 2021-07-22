@@ -141,8 +141,10 @@ def customer(request):
 	return render(request, 'customer/index.html', {'country':country, 'site_title':'CUSTOMER', 'customer_data':customer_data, 'state':state, 'city':city})
 
 def create_customer(request):
+	date_today = date.today()
+	today = date_today.strftime('%Y-%m-%d')
 	country_data = Country.objects.all()
-	return render(request, 'customer/create.html', {'site_title':'CREATE CUSTOMER', 'country_data':country_data})
+	return render(request, 'customer/create.html', {'today':today,'site_title':'CREATE CUSTOMER', 'country_data':country_data})
 
 def ajax_load_states(request):
 	country_id = request.GET.get('country_id')
@@ -168,6 +170,8 @@ def store_customer(request):
 		return redirect('customer')
 
 def edit_customer(request, id):
+	date_today = date.today()
+	today = date_today.strftime('%Y-%m-%d')
 	customer_data = Customer.objects.get(id=id)
 	country_data = Country.objects.all()
 	country = Country.objects.get(id=customer_data.country_id)
@@ -175,7 +179,7 @@ def edit_customer(request, id):
 	state_data = State.objects.filter(country_id=country.id)
 	city = City.objects.get(id=customer_data.city_id)
 	city_data = City.objects.filter(state_id=state.id)
-	return render(request, 'customer/edit.html', {'city':city,'country_data':country_data,'country':country,'site_title':'EDIT INVOICE', 'customer_data':customer_data, 'state':state, 'state_data':state_data, 'city_data':city_data})
+	return render(request, 'customer/edit.html', {'today':today,'city':city,'country_data':country_data,'country':country,'site_title':'EDIT INVOICE', 'customer_data':customer_data, 'state':state, 'state_data':state_data, 'city_data':city_data})
 
 def update_customer(request, id):
 	if request.method == "POST":

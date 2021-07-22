@@ -16,6 +16,8 @@ class Invoice(models.Model):
     date = models.DateField()  
     customer_id = models.CharField(max_length=255)  
     amount = models.CharField(max_length=255)  
+    created_at = models.CharField(max_length=255, default="", blank="True")  
+    updated_at = models.CharField(max_length=255, default="", blank="True")  
     class Meta:  
         db_table = "invoice" 
 
@@ -52,6 +54,8 @@ class Customer(models.Model):
     state_id = models.CharField(max_length=255, default="")
     city_id = models.CharField(max_length=255, default="")
     total_spending = models.IntegerField(default=0, blank="True") 
+    created_at = models.CharField(max_length=255, default="", blank="True")  
+    updated_at = models.CharField(max_length=255, default="", blank="True")  
     class Meta:  
         db_table = "customer" 
 
