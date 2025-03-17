@@ -5,13 +5,13 @@ python -m pip install Django
 You need Wamp/Lamp/Xampp to connect with the database.
 
 Then, go to setting.py and change the DB configuration. DATABASES = {
-'default': {
-'ENGINE': 'django.db.backends.mysql',
-'NAME': 'database_name',
-'USER':'database_username',
-'PASSWORD':'database_password',
-'HOST':'localhost',
-'PORT':'3306'
+	'default': {
+	'ENGINE': 'django.db.backends.mysql',
+	'NAME': 'database_name',
+	'USER':'database_username',
+	'PASSWORD':'database_password',
+	'HOST':'localhost',
+	'PORT':'3306'
 }
 }
 
